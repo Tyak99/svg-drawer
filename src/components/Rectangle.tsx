@@ -2,30 +2,30 @@ import * as React from "react";
 import * as d3Drag from "d3-drag";
 import * as d3Selection from "d3-selection";
 
-const Circle: React.FunctionComponent<{
+const Rectangle: React.FunctionComponent<{
   cx: string;
   cy: string;
 }> = (props) => {
   const myRef = React.useRef(null);
 
   React.useEffect(() => {
-    console.log("🚀 ~ file: Circle.tsx ~ line 14 ~ handleDrag ~ me");
+    console.log("🚀 ~ file: Reactagle.tsx ~ line 14 ~ handleDrag ~ me");
     const drag = () => {
       function dragstarted(event: { x: string; y: string }) {
-        console.log("🚀 ~ file: Circle.tsx ~ line 18 ~ dragstarted ~ event");
+        console.log("🚀 ~ file: Reactagle.tsx ~ line 18 ~ dragstarted ~ event");
       }
 
       function dragged(event: { x: string; y: string }) {
-        console.log("🚀 ~ file: Circle.tsx ~ line 24 ~ dragged ~ event", event.x, event.y);
-        const circle = d3Selection
+        console.log("🚀 ~ file: Reactagle.tsx ~ line 24 ~ dragged ~ event", event.x, event.y);
+        const rect = d3Selection
           .select(myRef.current)
           .classed("dragging", true);
-        circle.attr("cx", event.x).attr("cy", event.y);
+        rect.attr("x", event.x).attr("y", event.y);
       }
 
       function dragended(event: object) {
         console.log(
-          "🚀 ~ file: Circle.tsx ~ line 29 ~ dragended ~ event",
+          "🚀 ~ file: Reactagle.tsx ~ line 29 ~ dragended ~ event",
           event
         );
       }
@@ -42,9 +42,9 @@ const Circle: React.FunctionComponent<{
 
   return (
     <svg>
-      <circle cx={props.cx} cy={props.cy} r="50" ref={myRef} />
+      <rect x={props.x} y={props.y} width="50" height='50' ref={myRef} />
     </svg>
   );
 };
 
-export default Circle;
+export default Rectangle;
