@@ -34,10 +34,6 @@ function App() {
   };
 
   const getCurrent = (current: any) => {
-    console.log(
-      "🚀 ~ file: App.tsx ~ line 33 ~ getCurrent ~ current",
-      current.tagName
-    );
     setCurrentSelected(current);
   };
 
@@ -102,7 +98,7 @@ function App() {
       )}
 
       <p> Please add shapes </p>
-      <p> To edit a shape, select it and use the input you see above</p>
+      <p> To edit a shape, click on it and input you see presented to you</p>
     </div>
   );
 }

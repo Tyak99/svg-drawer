@@ -11,14 +11,11 @@ const Circle: React.FunctionComponent<{
   const myRef = React.useRef(null);
 
   React.useEffect(() => {
-    console.log("🚀 ~ file: Circle.tsx ~ line 14 ~ handleDrag ~ me");
     const drag = () => {
       function dragstarted(event: { x: string; y: string }) {
-        console.log("🚀 ~ file: Circle.tsx ~ line 18 ~ dragstarted ~ event");
       }
 
       function dragged(event: { x: string; y: string }) {
-        console.log("🚀 ~ file: Circle.tsx ~ line 24 ~ dragged ~ event", event.x, event.y);
         const circle = d3Selection
           .select(myRef.current)
           .classed("dragging", true);
@@ -26,10 +23,6 @@ const Circle: React.FunctionComponent<{
       }
 
       function dragended(event: object) {
-        console.log(
-          "🚀 ~ file: Circle.tsx ~ line 29 ~ dragended ~ event",
-          event
-        );
       }
 
       return d3Drag

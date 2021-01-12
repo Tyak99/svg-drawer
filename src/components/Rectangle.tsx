@@ -11,14 +11,11 @@ const Rectangle: React.FunctionComponent<{
   const myRef = React.useRef(null);
 
   React.useEffect(() => {
-    console.log("🚀 ~ file: Reactagle.tsx ~ line 14 ~ handleDrag ~ me");
     const drag = () => {
       function dragstarted(event: { x: string; y: string }) {
-        console.log("🚀 ~ file: Reactagle.tsx ~ line 18 ~ dragstarted ~ event");
       }
 
       function dragged(event: { x: string; y: string }) {
-        console.log("🚀 ~ file: Reactagle.tsx ~ line 24 ~ dragged ~ event", event.x, event.y);
         const rect = d3Selection
           .select(myRef.current)
           .classed("dragging", true);
@@ -26,10 +23,6 @@ const Rectangle: React.FunctionComponent<{
       }
 
       function dragended(event: object) {
-        console.log(
-          "🚀 ~ file: Reactagle.tsx ~ line 29 ~ dragended ~ event",
-          event
-        );
       }
 
       return d3Drag
