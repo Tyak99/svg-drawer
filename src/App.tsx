@@ -98,7 +98,7 @@ function App() {
       )}
 
       <p> Please add shapes </p>
-      <p> To edit a shape, click on it and input you see presented to you</p>
+      <p> To edit a shape, click on it and use the input presented to you</p>
     </div>
   );
 }
