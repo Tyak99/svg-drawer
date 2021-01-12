@@ -8,7 +8,7 @@ const Circle: React.FunctionComponent<{
   r: string;
   currentItem: Function
 }> = (props) => {
-  const myRef = React.useRef(null);
+  const myRef = React.useRef<SVGCircleElement | null>(null);
 
   React.useEffect(() => {
     const drag = () => {

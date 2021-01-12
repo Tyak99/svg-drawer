@@ -1,10 +1,10 @@
 import * as React from "react";
 import "./sandbox.css";
 
-const Sandbox: React.FunctionComponent<{}> = ({ children }) => {
+const Sandbox: React.FunctionComponent<{children: React.ReactChild}> = ({ children }) => {
   return (
     <div style={{ marginTop: "2rem" }}>
-      <svg viewBox="0 0 600 600" width="600" height="600">
+      <svg viewBox="0 0 1000 600" width="1000" height="600">
         {children}
       </svg>
     </div>

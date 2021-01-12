@@ -1,21 +1,33 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Circle from "./components/Circle";
 import Sandbox from "./components/Sandbox/sandbox";
 import Header from "./components/Header";
 import Rectangle from "./components/Rectangle";
 import * as d3Selection from "d3-selection";
+import { Button } from "reactstrap";
+
+interface ICircleDataPoints {
+  x: string
+  y: any
+  r: string
+}
+
+interface IRectDataPoint {
+  x: string
+  y: any
+  size: string
+}
 
 function App() {
-  const [circleDatapoint, setcircleDatapoint] = useState([]);
+  const [circleDatapoint, setcircleDatapoint] = useState<ICircleDataPoints[] | null>([]);
 
-  const [rectDatapoints, setRectDatapoints] = useState([]);
-  const [color, setColor] = useState();
-  const [size, setSize] = useState();
-  const [currentSelected, setCurrentSelected] = useState(null);
+  const [rectDatapoints, setRectDatapoints] = useState<IRectDataPoint[] | null>([]);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const [currentSelected, setCurrentSelected] = useState<HTMLDivElement | null>(null);
 
-  const clickHandler = () => {
+  const createCircle = () => {
     const x = Math.floor(Math.random() * Math.floor(500)).toString();
     const y = Math.floor(Math.random() * Math.floor(500)).toString();
 
@@ -28,12 +40,12 @@ function App() {
     const x = Math.floor(Math.random() * Math.floor(500)).toString();
     const y = Math.floor(Math.random() * Math.floor(500)).toString();
 
-    const all = [...rectDatapoints, { x, y, size: '50' }];
+    const all = [...rectDatapoints, { x, y, size: "50" }];
 
     setRectDatapoints(all);
   };
 
-  const getCurrent = (current: any) => {
+  const clickHandler = (current: any) => {
     setCurrentSelected(current);
   };
 
@@ -42,44 +54,66 @@ function App() {
   };
 
   const changeSize = (size: string) => {
+    if (!currentSelected) return;
     if (currentSelected.tagName === "circle") {
       d3Selection.select(currentSelected).attr("r", size);
     } else if (currentSelected.tagName === "rect") {
-      d3Selection.select(currentSelected).attr("height", size).attr('width', size);
+      d3Selection
+        .select(currentSelected)
+        .attr("height", size)
+        .attr("width", size);
     }
   };
 
+  const renderCircles = () => {
+    if (!circleDatapoint || circleDatapoint.length < 1) return;
+    return (
+      circleDatapoint.map((item, i) => {
+        return (
+          <Circle
+            cx={item.x}
+            cy={item.y}
+            key={i}
+            currentItem={clickHandler}
+            r={item.r}
+          />
+        );
+      })
+    )
+  }
+
+  const renderRects = () => {
+    if (!rectDatapoints || rectDatapoints.length < 1) return;
+    return (
+      rectDatapoints.map((item, i) => {
+        return (
+          <Rectangle
+            x={item.x}
+            y={item.y}
+            key={i}
+            currentItem={clickHandler}
+            size={item.size}
+          />
+        );
+      })
+    )
+  }
   return (
     <div className="App">
       <Header />
       <Sandbox>
-        {circleDatapoint.map((item, i) => {
-          return (
-            <Circle
-              cx={item.x}
-              cy={item.y}
-              key={i}
-              currentItem={getCurrent}
-              r={item.r}
-            />
-          );
-        })}
-        {rectDatapoints.map((item, i) => {
-          return (
-            <Rectangle
-              x={item.x}
-              y={item.y}
-              key={i}
-              currentItem={getCurrent}
-              size={item.size}
-            />
-          );
-        })}
+        {circleDatapoint.length < 1 && rectDatapoints.length < 1 && (
+          <text x="450" y="300">
+            Your drawing is empty
+          </text>
+        )}
+        {renderCircles()}
+        {renderRects()}
       </Sandbox>
       <div className="actions">
-        <button onClick={() => clickHandler()}> Add Circle </button>
-        <button onClick={() => createRectangle()}> Add Rectangle </button>
-        {/* <button>Add Line</button> */}
+        <Button onClick={() => createCircle()} color='primary'>Add Circle</Button>
+        <Button onClick={() => createRectangle()} color='primary'>Add Line</Button>
+        <Button onClick={() => createRectangle()} color='primary'>Add Rectangle</Button>
       </div>
 
       {currentSelected && (
@@ -97,8 +131,10 @@ function App() {
         </>
       )}
 
-      <p> Please add shapes </p>
-      <p> To edit a shape, click on it and use the input presented to you</p>
+      <div className="disclaimer">
+        <h2> Disclaimer </h2>
+        <p> All shapes are editable, click the shape and use the form presented to you to edit </p>
+      </div>
     </div>
   );
 }

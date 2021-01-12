@@ -8,7 +8,7 @@ const Rectangle: React.FunctionComponent<{
   size: string;
   currentItem: Function
 }> = (props) => {
-  const myRef = React.useRef(null);
+  const myRef = React.useRef<SVGRectElement | null>(null);
 
   React.useEffect(() => {
     const drag = () => {
