@@ -3,23 +3,21 @@ import "./App.css";
 import Circle from "./components/Circle";
 import Sandbox from "./components/Sandbox/sandbox";
 import Header from "./components/Header";
-import Shapes from "./components/Shapes";
 import Rectangle from "./components/Rectangle";
 import * as d3Selection from "d3-selection";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import Line from "./components/Line";
+import CircleDetails from "./components/ShapesDetails/CircleDetails";
+import RectDetails from "./components/ShapesDetails/RectDetails";
 
-interface ICircleDataPoints {
+interface IAllDataPoints {
   x: string;
   y: any;
-  r: string;
+  radius?: string;
+  height?: string;
+  width?: string;
+  name: string;
   color: string;
-}
-
-interface IRectDataPoint {
-  x: string;
-  y: any;
-  size: string;
 }
 
 interface ILineDataPoint {
@@ -31,19 +29,12 @@ interface ILineDataPoint {
 }
 
 function App() {
-  const [circleDatapoint, setcircleDatapoint] = useState<
-    ICircleDataPoints[] | null
-  >([]);
+  const [allDatapoint, setAllDatapoint] = useState<IAllDataPoints[] | null>([]);
 
   const [lineDatapoints, setLineDatapoint] = useState<ILineDataPoint[] | null>(
     []
   );
 
-  const [rectDatapoints, setRectDatapoints] = useState<IRectDataPoint[] | null>(
-    []
-  );
-  const [color, setColor] = useState("");
-  const [size, setSize] = useState("");
   const [currentSelected, setCurrentSelected] = useState<HTMLDivElement | null>(
     null
   );
@@ -52,9 +43,11 @@ function App() {
     const x = Math.floor(Math.random() * Math.floor(500)).toString();
     const y = Math.floor(Math.random() * Math.floor(500)).toString();
 
-    const all = [...circleDatapoint, { x, y, r: "50", color: 'black' }];
-
-    setcircleDatapoint(all);
+    const all = [
+      ...allDatapoint,
+      { x, y, radius: "50", color: "black", name: "circle" },
+    ];
+    setAllDatapoint(all);
   };
 
   const createLine = () => {
@@ -72,146 +65,131 @@ function App() {
     const x = Math.floor(Math.random() * Math.floor(500)).toString();
     const y = Math.floor(Math.random() * Math.floor(500)).toString();
 
-    const all = [...rectDatapoints, { x, y, size: "50" }];
-
-    setRectDatapoints(all);
+    const all = [
+      ...allDatapoint,
+      {
+        x,
+        y,
+        size: "50",
+        name: "rect",
+        height: "50",
+        width: "50",
+        color: "black",
+      },
+    ];
+    setAllDatapoint(all);
   };
 
   const clickHandler = (current: any) => {
     setCurrentSelected(current);
   };
 
-  const changeColor = (color: string) => {
-    d3Selection.select(currentSelected).attr("fill", color);
+  // const changeColor = (color: string) => {
+  //   d3Selection.select(currentSelected).attr("fill", color);
+  // };
+
+  // const changeSize = (size: string) => {
+  //   if (!currentSelected) return;
+  //   if (currentSelected.tagName === "circle") {
+  //     d3Selection.select(currentSelected).attr("r", size);
+  //   } else if (currentSelected.tagName === "rect") {
+  //     d3Selection
+  //       .select(currentSelected)
+  //       .attr("height", size)
+  //       .attr("width", size);
+  //   }
+  // };
+
+  const updateShape = (
+    e: { target: { name: string; value: string } },
+    index: number
+  ) => {
+    const { name, value } = e.target;
+    console.log('🚀 ~ file: App.tsx ~ line 108 ~ App ~ name', name, value, index)
+    if (!allDatapoint) return;
+    const shapes = [...allDatapoint];
+    const foundCircle = {
+      ...shapes[index],
+      [name]: value,
+    };
+    shapes[index] = foundCircle;
+    console.log(
+      "🚀 ~ file: App.tsx ~ line 123 ~ updateShape ~ circles",
+      shapes
+    );
+    setAllDatapoint(shapes);
   };
 
-  const changeSize = (size: string) => {
-    if (!currentSelected) return;
-    if (currentSelected.tagName === "circle") {
-      d3Selection.select(currentSelected).attr("r", size);
-    } else if (currentSelected.tagName === "rect") {
-      d3Selection
-        .select(currentSelected)
-        .attr("height", size)
-        .attr("width", size);
-    }
-  };
-
-  const renderCircles = () => {
-    if (!circleDatapoint || circleDatapoint.length < 1) return;
-    return circleDatapoint.map((item, i) => {
-      return (
-        <Circle
-          cx={item.x}
-          cy={item.y}
-          key={i}
-          currentItem={clickHandler}
-          r={item.r}
-          color={item.color}
-        />
-      );
+  const renderShapeDetails = () => {
+    if (!allDatapoint || allDatapoint.length < 1) return;
+    return allDatapoint.map((item, i) => {
+      if (item.name === "circle") {
+        const circleItem = {
+          index: i,
+          radius: item.radius || "50",
+          color: item.color,
+        };
+        return (
+          <CircleDetails
+            item={circleItem}
+            updateShape={updateShape}
+            deleteShape={deleteShape}
+          />
+        );
+      } else if (item.name === "rect") {
+        const rectItem = {
+          index: i,
+          width: item.width || "50",
+          color: item.color,
+          height: item.height || "50",
+        };
+        return (
+          <RectDetails
+            item={rectItem}
+            updateShape={updateShape}
+            deleteShape={deleteShape}
+          />
+        );
+      }
+      return false;
     });
   };
 
-  const updateCircle = (e, index: number) => {
-    console.log('🚀 ~ file: App.tsx ~ line 127 ~ updateCircle ~ e', e.target.name)
-    const { name, value } = e.target;
-    if (!circleDatapoint) return;
-    const circles = [...circleDatapoint];
-    const foundCircle = {
-      ...circles[index],
-      [name]: value
-    };
-    circles[index] = foundCircle;
-    console.log('🚀 ~ file: App.tsx ~ line 123 ~ updateCircle ~ circles', circles)
-    setcircleDatapoint(circles);
-  }
-
-  const renderCircleDetails  = () => {
-    if (!circleDatapoint || circleDatapoint.length < 1) return;
-    // return circleDatapoint.map((item, i) => {
-    //   return (
-    //   <div className="shape">
-    //       <p> Rectangle </p>
-    //       <div className="items">
-    //         <div className="item">
-    //           <p> Fill color </p>
-    //           <input type="text" onChange={(e) => updateCircle(e, i)} name='color' defaultValue={item.color} />
-    //         </div>
-    //         <div className="item">
-    //           <p> Size </p>
-    //           <input type="text" value={item.r} name='r' onChange={(e) => updateCircle(e, i)} />
-    //         </div>
-    //       </div>
-    //       <button onClick={() => deleteShape('circle', i)}> delete </button>
-    //       <p> delete </p>
-    //     </div>
-    //     )
-    // })
-
-    return [...circleDatapoint, ...rectDatapoints].map((item, i) => {
-      if (item.name === 'circle') {
-        return (
-          <div className="shape">
-          <p> Circle </p>
-          <div className="items">
-            <div className="item">
-              <p> Fill color </p>
-              <input type="text" onChange={(e) => updateCircle(e, i)} name='color' defaultValue={item.color} />
-            </div>
-            <div className="item">
-              <p> Size </p>
-              <input type="text" value={item.r} name='r' onChange={(e) => updateCircle(e, i)} />
-            </div>
-          </div>
-          <button onClick={() => deleteShape('circle', i)}> delete </button>
-          <p> delete </p>
-        </div>
-        )
-      } else if (item.name === 'rect') {
-        return (
-          <div className="shape">
-          <p> Rectangle </p>
-          <div className="items">
-            <div className="item">
-              <p> Fill color </p>
-              <input type="text" onChange={(e) => updateCircle(e, i)} name='color' defaultValue={item.color} />
-            </div>
-            <div className="item">
-              <p> Width </p>
-              <input type="text" value={item.r} name='r' onChange={(e) => updateCircle(e, i)} />
-            </div>
-          </div>
-          <button onClick={() => deleteShape('circle', i)}> delete </button>
-          <p> delete </p>
-        </div>
-        )
-      }
-    })
-  }
-
   const deleteShape = (shape: string, index: number) => {
-    if (!circleDatapoint && !rectDatapoints) return;
-    if (shape === 'circle') {
-      const circles = [...circleDatapoint].filter((item, i) => {
-        return i !== index
-      })
-      setcircleDatapoint(circles);
-    }
-  } 
+    if (!allDatapoint) return;
+    const updatedDataPoints = [...allDatapoint].filter((item, i) => {
+      return i !== index;
+    });
+    setAllDatapoint(updatedDataPoints);
+  };
 
-  const renderRects = () => {
-    if (!rectDatapoints || rectDatapoints.length < 1) return;
-    return rectDatapoints.map((item, i) => {
-      return (
-        <Rectangle
-          x={item.x}
-          y={item.y}
-          key={i}
-          currentItem={clickHandler}
-          size={item.size}
-        />
-      );
+  const renderShapes = () => {
+    if (!allDatapoint || allDatapoint.length < 1) return;
+    return allDatapoint.map((item, i) => {
+      if (item.name === "rect") {
+        return (
+          <Rectangle
+            x={item.x}
+            y={item.y}
+            key={i}
+            currentItem={clickHandler}
+            width={item.width || "50"}
+            height={item.height || "50"}
+            color={item.color}
+          />
+        );
+      } else {
+        return (
+          <Circle
+            cx={item.x}
+            cy={item.y}
+            key={i}
+            currentItem={clickHandler}
+            r={item.radius || "50"}
+            color={item.color}
+          />
+        );
+      }
     });
   };
 
@@ -232,26 +210,17 @@ function App() {
     });
   };
 
-  React.useEffect(() => {
-    d3Selection
-      .select(currentSelected)
-      .attr("stroke", "red")
-      .attr("stroke-width", "2");
-  }, [currentSelected]);
-
   return (
     <div className="App">
       <Header />
       <Sandbox>
-        {circleDatapoint.length < 1 && rectDatapoints.length < 1 && (
+        {allDatapoint.length < 1 && (
           <text x="450" y="300">
             Your drawing is empty
           </text>
         )}
-        {renderCircles()}
-        {renderRects()}
-        {renderLine()}
-        {/* <Circle cx="150" cy="150" r="60" /> */}
+        {renderShapes()}
+        {/* {renderLine()} */}
       </Sandbox>
       <div className="actions">
         <Button onClick={() => createCircle()} color="primary">
@@ -283,7 +252,7 @@ function App() {
       {/* <Shapes /> */}
 
       <div style={{ width: "1000px", margin: "2rem auto" }}>
-        {renderCircleDetails()}
+        {renderShapeDetails()}
       </div>
 
       {/* <div className="disclaimer">

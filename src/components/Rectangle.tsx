@@ -3,9 +3,11 @@ import * as d3Drag from "d3-drag";
 import * as d3Selection from "d3-selection";
 
 const Rectangle: React.FunctionComponent<{
-  cx: string;
-  cy: string;
-  size: string;
+  x: string;
+  y: string;
+  height: string;
+  width: string;
+  color: string;
   currentItem: Function
 }> = (props) => {
   const myRef = React.useRef<SVGRectElement | null>(null);
@@ -37,7 +39,7 @@ const Rectangle: React.FunctionComponent<{
 
   return (
     <svg>
-      <rect x={props.x} y={props.y} width={props.size} height={props.size} ref={myRef} onClick={() => props.currentItem(myRef.current)} />
+      <rect fill={props.color} x={props.x} y={props.y} width={props.width} height={props.height} ref={myRef} onClick={() => props.currentItem(myRef.current)} />
     </svg>
   );
 };
