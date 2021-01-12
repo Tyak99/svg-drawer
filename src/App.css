@@ -49,3 +49,13 @@
   width: 1000px;
   margin: 2rem auto;
 }
+
+.forms {
+  width: 1000px;
+  margin: 2rem auto;
+  display: flex;
+}
+
+.form-group {
+  margin: 0 1rem;
+}

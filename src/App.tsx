@@ -5,27 +5,33 @@ import Sandbox from "./components/Sandbox/sandbox";
 import Header from "./components/Header";
 import Rectangle from "./components/Rectangle";
 import * as d3Selection from "d3-selection";
-import { Button } from "reactstrap";
+import { Button, FormGroup, Input, Label } from "reactstrap";
 
 interface ICircleDataPoints {
-  x: string
-  y: any
-  r: string
+  x: string;
+  y: any;
+  r: string;
 }
 
 interface IRectDataPoint {
-  x: string
-  y: any
-  size: string
+  x: string;
+  y: any;
+  size: string;
 }
 
 function App() {
-  const [circleDatapoint, setcircleDatapoint] = useState<ICircleDataPoints[] | null>([]);
+  const [circleDatapoint, setcircleDatapoint] = useState<
+    ICircleDataPoints[] | null
+  >([]);
 
-  const [rectDatapoints, setRectDatapoints] = useState<IRectDataPoint[] | null>([]);
+  const [rectDatapoints, setRectDatapoints] = useState<IRectDataPoint[] | null>(
+    []
+  );
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
-  const [currentSelected, setCurrentSelected] = useState<HTMLDivElement | null>(null);
+  const [currentSelected, setCurrentSelected] = useState<HTMLDivElement | null>(
+    null
+  );
 
   const createCircle = () => {
     const x = Math.floor(Math.random() * Math.floor(500)).toString();
@@ -67,37 +73,33 @@ function App() {
 
   const renderCircles = () => {
     if (!circleDatapoint || circleDatapoint.length < 1) return;
-    return (
-      circleDatapoint.map((item, i) => {
-        return (
-          <Circle
-            cx={item.x}
-            cy={item.y}
-            key={i}
-            currentItem={clickHandler}
-            r={item.r}
-          />
-        );
-      })
-    )
-  }
+    return circleDatapoint.map((item, i) => {
+      return (
+        <Circle
+          cx={item.x}
+          cy={item.y}
+          key={i}
+          currentItem={clickHandler}
+          r={item.r}
+        />
+      );
+    });
+  };
 
   const renderRects = () => {
     if (!rectDatapoints || rectDatapoints.length < 1) return;
-    return (
-      rectDatapoints.map((item, i) => {
-        return (
-          <Rectangle
-            x={item.x}
-            y={item.y}
-            key={i}
-            currentItem={clickHandler}
-            size={item.size}
-          />
-        );
-      })
-    )
-  }
+    return rectDatapoints.map((item, i) => {
+      return (
+        <Rectangle
+          x={item.x}
+          y={item.y}
+          key={i}
+          currentItem={clickHandler}
+          size={item.size}
+        />
+      );
+    });
+  };
   return (
     <div className="App">
       <Header />
@@ -111,29 +113,38 @@ function App() {
         {renderRects()}
       </Sandbox>
       <div className="actions">
-        <Button onClick={() => createCircle()} color='primary'>Add Circle</Button>
-        <Button onClick={() => createRectangle()} color='primary'>Add Line</Button>
-        <Button onClick={() => createRectangle()} color='primary'>Add Rectangle</Button>
+        <Button onClick={() => createCircle()} color="primary">
+          Add Circle
+        </Button>
+        <Button onClick={() => createRectangle()} color="primary">
+          Add Line
+        </Button>
+        <Button onClick={() => createRectangle()} color="primary">
+          Add Rectangle
+        </Button>
       </div>
 
       {currentSelected && (
-        <>
-          <div>
+        <div className='forms'>
+          <div className='form-group'>
             <p> Change color </p>
             <input type="text" onChange={(e) => setColor(e.target.value)} />
             <button onClick={() => changeColor(color)}> Submit </button>
           </div>
-          <div>
+          <div className='form-group'>
             <p> Change Size </p>
             <input type="text" onChange={(e) => setSize(e.target.value)} />
             <button onClick={() => changeSize(size)}> Submit </button>
           </div>
-        </>
+        </div>
       )}
 
       <div className="disclaimer">
         <h2> Disclaimer </h2>
-        <p> All shapes are editable, click the shape and use the form presented to you to edit </p>
+        <p>
+          All shapes are editable, click the shape and use the form presented to
+          you to edit
+        </p>
       </div>
     </div>
   );
