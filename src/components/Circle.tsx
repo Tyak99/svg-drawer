@@ -6,6 +6,7 @@ const Circle: React.FunctionComponent<{
   cx: string;
   cy: string;
   r: string;
+  color: string;
   currentItem: Function
 }> = (props) => {
   const myRef = React.useRef<SVGCircleElement | null>(null);
@@ -41,7 +42,7 @@ const Circle: React.FunctionComponent<{
 
   return (
     <svg>
-      <circle cx={props.cx} cy={props.cy} r={props.r} ref={myRef} onClick={() => props.currentItem(myRef.current)} fill='green'/>
+      <circle cx={props.cx} cy={props.cy} r={props.r} ref={myRef} onClick={() => props.currentItem(myRef.current)} fill={props.color}/>
     </svg>
   );
 };
