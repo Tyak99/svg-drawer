@@ -1,15 +1,16 @@
 import * as React from "react";
+import { Button } from "reactstrap";
 import "./shapes.css";
 
 type CircleProps = {
-    item: {
-        color: string;
-        radius: string;
-        index: number
-    },
-    updateShape: Function,
-    deleteShape: Function,
-}
+  item: {
+    color: string;
+    radius: string;
+    index: number;
+  };
+  updateShape: Function;
+  deleteShape: Function;
+};
 
 const CircleDetails = (props: CircleProps) => {
   return (
@@ -36,8 +37,12 @@ const CircleDetails = (props: CircleProps) => {
             />
           </div>
         </div>
-        <button onClick={() => props.deleteShape("circle", props.item.index)}> delete </button>
-        <p> delete </p>
+        <Button
+          color="danger"
+          onClick={() => props.deleteShape("circle", props.item.index)}
+        >
+          Delete
+        </Button>
       </div>
     </div>
   );

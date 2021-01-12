@@ -4,8 +4,7 @@ import Circle from "./components/Circle";
 import Sandbox from "./components/Sandbox/sandbox";
 import Header from "./components/Header";
 import Rectangle from "./components/Rectangle";
-import * as d3Selection from "d3-selection";
-import { Button, FormGroup, Input, Label } from "reactstrap";
+import { Button } from "reactstrap";
 import Line from "./components/Line";
 import CircleDetails from "./components/ShapesDetails/CircleDetails";
 import RectDetails from "./components/ShapesDetails/RectDetails";
@@ -134,6 +133,7 @@ function App() {
             item={circleItem}
             updateShape={updateShape}
             deleteShape={deleteShape}
+            key={i}
           />
         );
       } else if (item.name === "rect") {
@@ -148,6 +148,7 @@ function App() {
             item={rectItem}
             updateShape={updateShape}
             deleteShape={deleteShape}
+            key={i}
           />
         );
       }
@@ -255,13 +256,12 @@ function App() {
         {renderShapeDetails()}
       </div>
 
-      {/* <div className="disclaimer">
-        <h2> Disclaimer </h2>
+      <div className="disclaimer">
+        <h3> Note </h3>
         <p>
-          All shapes are editable, click the shape and use the form presented to
-          you to edit
+          You can drag a shape across the view to change position :)
         </p>
-      </div> */}
+      </div>
     </div>
   );
 }
