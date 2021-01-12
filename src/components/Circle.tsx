@@ -5,6 +5,8 @@ import * as d3Selection from "d3-selection";
 const Circle: React.FunctionComponent<{
   cx: string;
   cy: string;
+  r: string;
+  currentItem: Function
 }> = (props) => {
   const myRef = React.useRef(null);
 
@@ -40,9 +42,13 @@ const Circle: React.FunctionComponent<{
     d3Selection.select(myRef.current).call(drag());
   }, []);
 
+  React.useEffect(() => {
+    // if ()
+  }, [])
+
   return (
     <svg>
-      <circle cx={props.cx} cy={props.cy} r="50" ref={myRef} />
+      <circle cx={props.cx} cy={props.cy} r={props.r} ref={myRef} onClick={() => props.currentItem(myRef.current)} fill='green'/>
     </svg>
   );
 };
