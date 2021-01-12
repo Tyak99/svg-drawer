@@ -8,7 +8,6 @@ const Line: React.FunctionComponent<{
   x2: string;
   y2: string;
   stroke: string;
-  currentItem: Function;
 }> = (props) => {
   const myRef = React.useRef<SVGLineElement | null>(null);
 
@@ -42,8 +41,6 @@ const Line: React.FunctionComponent<{
 
   return (
     <svg>
-      {/* <circle cx={props.cx} cy={props.cy} r={props.r} ref={myRef} onClick={() => props.currentItem(myRef.current)} fill='green'/>
-       */}
       <line x1={props.x1} y1={props.y1} x2={props.x2} y2={props.y2} stroke={props.stroke} />
     </svg>
   );

@@ -34,10 +34,6 @@ function App() {
     []
   );
 
-  const [currentSelected, setCurrentSelected] = useState<HTMLDivElement | null>(
-    null
-  );
-
   const createCircle = () => {
     const x = Math.floor(Math.random() * Math.floor(500)).toString();
     const y = Math.floor(Math.random() * Math.floor(500)).toString();
@@ -78,26 +74,6 @@ function App() {
     ];
     setAllDatapoint(all);
   };
-
-  const clickHandler = (current: any) => {
-    setCurrentSelected(current);
-  };
-
-  // const changeColor = (color: string) => {
-  //   d3Selection.select(currentSelected).attr("fill", color);
-  // };
-
-  // const changeSize = (size: string) => {
-  //   if (!currentSelected) return;
-  //   if (currentSelected.tagName === "circle") {
-  //     d3Selection.select(currentSelected).attr("r", size);
-  //   } else if (currentSelected.tagName === "rect") {
-  //     d3Selection
-  //       .select(currentSelected)
-  //       .attr("height", size)
-  //       .attr("width", size);
-  //   }
-  // };
 
   const updateShape = (
     e: { target: { name: string; value: string } },
@@ -173,7 +149,6 @@ function App() {
             x={item.x}
             y={item.y}
             key={i}
-            currentItem={clickHandler}
             width={item.width || "50"}
             height={item.height || "50"}
             color={item.color}
@@ -185,7 +160,6 @@ function App() {
             cx={item.x}
             cy={item.y}
             key={i}
-            currentItem={clickHandler}
             r={item.radius || "50"}
             color={item.color}
           />
@@ -205,7 +179,6 @@ function App() {
           y2={item.y2}
           stroke="black"
           key={i}
-          currentItem={clickHandler}
         />
       );
     });
@@ -234,23 +207,6 @@ function App() {
           Add Rectangle
         </Button>
       </div>
-
-      {/* {currentSelected && (
-        <div className="forms">
-          <div className="form-group">
-            <p> Change color </p>
-            <input type="text" onChange={(e) => setColor(e.target.value)} />
-            <button onClick={() => changeColor(color)}> Submit </button>
-          </div>
-          <div className="form-group">
-            <p> Change Size </p>
-            <input type="text" onChange={(e) => setSize(e.target.value)} />
-            <button onClick={() => changeSize(size)}> Submit </button>
-          </div>
-        </div>
-      )} */}
-
-      {/* <Shapes /> */}
 
       <div style={{ width: "1000px", margin: "2rem auto" }}>
         {renderShapeDetails()}

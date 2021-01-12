@@ -8,7 +8,6 @@ const Rectangle: React.FunctionComponent<{
   height: string;
   width: string;
   color: string;
-  currentItem: Function
 }> = (props) => {
   const myRef = React.useRef<SVGRectElement | null>(null);
 
@@ -39,7 +38,7 @@ const Rectangle: React.FunctionComponent<{
 
   return (
     <svg>
-      <rect fill={props.color} x={props.x} y={props.y} width={props.width} height={props.height} ref={myRef} onClick={() => props.currentItem(myRef.current)} />
+      <rect fill={props.color} x={props.x} y={props.y} width={props.width} height={props.height} ref={myRef}/>
     </svg>
   );
 };
