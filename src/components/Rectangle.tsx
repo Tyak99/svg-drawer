@@ -5,6 +5,8 @@ import * as d3Selection from "d3-selection";
 const Rectangle: React.FunctionComponent<{
   cx: string;
   cy: string;
+  size: string;
+  currentItem: Function
 }> = (props) => {
   const myRef = React.useRef(null);
 
@@ -42,7 +44,7 @@ const Rectangle: React.FunctionComponent<{
 
   return (
     <svg>
-      <rect x={props.x} y={props.y} width="50" height='50' ref={myRef} />
+      <rect x={props.x} y={props.y} width={props.size} height={props.size} ref={myRef} onClick={() => props.currentItem(myRef.current)} />
     </svg>
   );
 };
