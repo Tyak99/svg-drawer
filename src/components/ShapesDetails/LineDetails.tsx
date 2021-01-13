@@ -19,10 +19,10 @@ const LineDetails = (props: LineProps) => {
   return (
     <div style={{ width: "1000px", margin: "2rem auto" }}>
       <div className="shape">
-        <p> Circle </p>
+        <p> Line </p>
         <div className="items">
           <div className="item">
-            <p> Fill color </p>
+            <p> Stroke color </p>
             <input
               type="text"
               onChange={(e) => props.updateShape(e, props.item.index)}
