@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Button } from "reactstrap";
 import "./shapes.css";
 
 type LineProps = {
@@ -10,6 +9,7 @@ type LineProps = {
     y2: string;
     stroke: string;
     index: number;
+    strokeWidth: string;
   };
   updateShape: Function;
   deleteShape: Function;
@@ -17,7 +17,6 @@ type LineProps = {
 
 const LineDetails = (props: LineProps) => {
   return (
-    <div style={{ width: "1000px", margin: "2rem auto" }}>
       <div className="shape">
         <p> Line </p>
         <div className="items">
@@ -66,15 +65,18 @@ const LineDetails = (props: LineProps) => {
               onChange={(e) => props.updateShape(e, props.item.index)}
             />
           </div>
+          <div className="item">
+            <p> Thickness </p>
+            <input
+              type="text"
+              value={props.item.strokeWidth}
+              name="strokeWidth"
+              onChange={(e) => props.updateShape(e, props.item.index)}
+            />
+          </div>
         </div>
-        <Button
-          color="danger"
-          onClick={() => props.deleteShape(props.item.index)}
-        >
-          Delete
-        </Button>
+        <button onClick={() => props.deleteShape(props.item.index)}>Delete</button>
       </div>
-    </div>
   );
 };
 

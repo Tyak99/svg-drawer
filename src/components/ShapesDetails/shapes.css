@@ -1,9 +1,27 @@
 .shape {
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid black;
+    margin-top: 1rem
 }
 
 .item {
     display: flex;
     justify-content: space-between;
+}
+
+.item p {
+    margin-right: 1rem;
+}
+
+.item input {
+    margin-bottom: 0.5rem;
+}
+
+.shape button {
+    height: 2rem;
+    background: #dc3545;
+    color: white;
+    border: 0;
+    border-radius: 3px;
 }

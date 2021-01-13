@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Button } from "reactstrap";
 import "./shapes.css";
 
 type RectProps = {
@@ -46,12 +45,9 @@ const RectDetails = (props: RectProps) => {
           />
         </div>
       </div>
-      <Button
-        color="danger"
-        onClick={() => props.deleteShape("circle", props.item.index)}
-      >
+      <button onClick={() => props.deleteShape(props.item.index)}>
         Delete
-      </Button>
+      </button>
     </div>
   );
 };

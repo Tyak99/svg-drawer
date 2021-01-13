@@ -4,7 +4,6 @@ import Circle from "./components/Circle";
 import Sandbox from "./components/Sandbox/sandbox";
 import Header from "./components/Header";
 import Rectangle from "./components/Rectangle";
-import { Button } from "reactstrap";
 import Line from "./components/Line";
 import CircleDetails from "./components/ShapesDetails/CircleDetails";
 import RectDetails from "./components/ShapesDetails/RectDetails";
@@ -16,6 +15,7 @@ interface IAllDataPoints {
   x2?: string;
   y2?: string;
   stroke?: string;
+  strokeWidth?: string;
   radius?: string;
   height?: string;
   width?: string;
@@ -43,7 +43,7 @@ function App() {
     const y1 = Math.floor(Math.random() * Math.floor(500)).toString();
     const y2 = Math.floor(Math.random() * Math.floor(500)).toString();
 
-    const all = [...allDatapoint, { x: x1, x2, y: y1, y2, stroke: "black" }];
+    const all = [...allDatapoint, { x: x1, x2, y: y1, y2, stroke: "black", strokeWidth: '1', name: 'lines' }];
 
     setAllDatapoint(all);
   };
@@ -93,12 +93,16 @@ function App() {
   };
 
   const renderShapeDetails = () => {
-    if (!allDatapoint || allDatapoint.length < 1) return;
+    if (!allDatapoint || allDatapoint.length < 1) {
+      return (
+        <p> You have not added any shapes </p>
+      )
+    };
     return allDatapoint.map((item, i) => {
       if (item.name === "circle") {
         const circleItem = {
           index: i,
-          radius: item.radius || "50",
+          radius: item.radius,
           color: item.color,
         };
         return (
@@ -112,9 +116,9 @@ function App() {
       } else if (item.name === "rect") {
         const rectItem = {
           index: i,
-          width: item.width || "50",
+          width: item.width,
           color: item.color,
-          height: item.height || "50",
+          height: item.height,
         };
         return (
           <RectDetails
@@ -129,9 +133,10 @@ function App() {
           index: i,
           x1: item.x,
           y1: item.y,
-          x2: item.x2 || '200',
-          y2: item.y2 || '50',
-          stroke: item.stroke || 'black'
+          x2: item.x2,
+          y2: item.y2,
+          stroke: item.stroke,
+          strokeWidth: item.strokeWidth
         }
         return (
           <LineDetails
@@ -185,28 +190,13 @@ function App() {
             y1={item.y}
             y2={item.y2 || '50'}
             stroke={item.stroke || 'black'}
+            strokeWidth={item.strokeWidth || '1'}
             key={i}
           />
         );
       }
     });
   };
-
-  // const renderLine = () => {
-  //   if (!lineDatapoints || lineDatapoints.length < 1) return;
-  //   return lineDatapoints.map((item, i) => {
-  //     return (
-  //       <Line
-  //         x1={item.x1}
-  //         y1={item.y1}
-  //         x2={item.x2}
-  //         y2={item.y2}
-  //         stroke="black"
-  //         key={i}
-  //       />
-  //     );
-  //   });
-  // };
 
   return (
     <div className="App">
@@ -218,21 +208,21 @@ function App() {
           </text>
         )}
         {renderShapes()}
-        {/* {renderLine()} */}
       </Sandbox>
       <div className="actions">
-        <Button onClick={() => createCircle()} color="primary">
+        <button onClick={() => createCircle()} color="primary">
           Add Circle
-        </Button>
-        <Button onClick={() => createLine()} color="primary">
+        </button>
+        <button onClick={() => createLine()} color="primary">
           Add Line
-        </Button>
-        <Button onClick={() => createRectangle()} color="primary">
+        </button>
+        <button onClick={() => createRectangle()} color="primary">
           Add Rectangle
-        </Button>
+        </button>
       </div>
 
       <div style={{ width: "1000px", margin: "2rem auto" }}>
+        <h3> Shapes </h3>
         {renderShapeDetails()}
       </div>
 

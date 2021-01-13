@@ -45,6 +45,13 @@
   margin-top: 2rem;
 }
 
+.actions button {
+  background-color: darkcyan;
+  padding: 5px 10px;
+  border: 0;
+  color: white
+}
+
 .disclaimer {
   width: 1000px;
   margin: 2rem auto;

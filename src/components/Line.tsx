@@ -6,10 +6,11 @@ const Line: React.FunctionComponent<{
   x2: string;
   y2: string;
   stroke: string;
+  strokeWidth: string;
 }> = (props) => {
   return (
     <svg>
-      <line x1={props.x1} y1={props.y1} x2={props.x2} y2={props.y2} stroke={props.stroke} />
+      <line x1={props.x1} y1={props.y1} x2={props.x2} y2={props.y2} stroke={props.stroke} strokeWidth={props.strokeWidth} />
     </svg>
   );
 };
