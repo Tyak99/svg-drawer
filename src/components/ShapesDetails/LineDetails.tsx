@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./shapes.css";
+import "./shapeDetails.css";
 
 type LineProps = {
   item: {
@@ -18,7 +18,7 @@ type LineProps = {
 const LineDetails = (props: LineProps) => {
   return (
       <div className="shape">
-        <p> Line </p>
+        <p> {`Line ${props.item.index + 1}`} </p>
         <div className="items">
           <div className="item">
             <p> Stroke color </p>
@@ -34,7 +34,7 @@ const LineDetails = (props: LineProps) => {
             <input
               type="text"
               value={props.item.x1}
-              name="x1"
+              name="x"
               onChange={(e) => props.updateShape(e, props.item.index)}
             />
           </div>
@@ -43,7 +43,7 @@ const LineDetails = (props: LineProps) => {
             <input
               type="text"
               value={props.item.y1}
-              name="y1"
+              name="y"
               onChange={(e) => props.updateShape(e, props.item.index)}
             />
           </div>

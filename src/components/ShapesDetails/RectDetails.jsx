@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./shapes.css";
+import "./shapeDetails.css";
 
 type RectProps = {
   item: {
@@ -15,7 +15,7 @@ type RectProps = {
 const RectDetails = (props: RectProps) => {
   return (
     <div className="shape">
-      <p> Rectangle </p>
+      <p> {`Rectangle ${props.item.index + 1}`} </p>
       <div className="items">
         <div className="item">
           <p> Fill color </p>

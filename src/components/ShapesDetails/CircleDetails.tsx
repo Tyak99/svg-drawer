@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./shapes.css";
+import "./shapeDetails.css";
 
 type CircleProps = {
   item: {
@@ -15,7 +15,7 @@ const CircleDetails = (props: CircleProps) => {
   return (
     <div style={{ width: "1000px", margin: "2rem auto" }}>
       <div className="shape">
-        <p> Circle </p>
+        <p> {`Circle ${props.item.index + 1}`} </p>
         <div className="items">
           <div className="item">
             <p> Fill color </p>

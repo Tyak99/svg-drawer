@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./App.css";
-import Circle from "./components/Circle";
+import Circle from "./components/Shapes/Circle";
 import Sandbox from "./components/Sandbox/sandbox";
 import Header from "./components/Header";
-import Rectangle from "./components/Rectangle";
-import Line from "./components/Line";
+import Rectangle from "./components/Shapes/Rectangle";
+import Line from "./components/Shapes/Line";
 import CircleDetails from "./components/ShapesDetails/CircleDetails";
 import RectDetails from "./components/ShapesDetails/RectDetails";
 import LineDetails from "./components/ShapesDetails/LineDetails";
@@ -23,12 +23,16 @@ interface IAllDataPoints {
   color: string;
 }
 
+const randomNumber = () => {
+  return Math.floor(Math.random() * Math.floor(500)).toString()
+};
+
 function App() {
   const [allDatapoint, setAllDatapoint] = useState<IAllDataPoints[] | null>([]);
 
   const createCircle = () => {
-    const x = Math.floor(Math.random() * Math.floor(500)).toString();
-    const y = Math.floor(Math.random() * Math.floor(500)).toString();
+    const x = randomNumber();
+    const y = randomNumber();
 
     const all = [
       ...allDatapoint,
@@ -38,10 +42,10 @@ function App() {
   };
 
   const createLine = () => {
-    const x1 = Math.floor(Math.random() * Math.floor(500)).toString();
-    const x2 = Math.floor(Math.random() * Math.floor(500)).toString();
-    const y1 = Math.floor(Math.random() * Math.floor(500)).toString();
-    const y2 = Math.floor(Math.random() * Math.floor(500)).toString();
+    const x1 = randomNumber();
+    const x2 = randomNumber();
+    const y1 = randomNumber();
+    const y2 = randomNumber();
 
     const all = [...allDatapoint, { x: x1, x2, y: y1, y2, stroke: "black", strokeWidth: '1', name: 'lines' }];
 
@@ -49,8 +53,8 @@ function App() {
   };
 
   const createRectangle = () => {
-    const x = Math.floor(Math.random() * Math.floor(500)).toString();
-    const y = Math.floor(Math.random() * Math.floor(500)).toString();
+    const x = randomNumber();
+    const y = randomNumber();
 
     const all = [
       ...allDatapoint,
@@ -72,12 +76,6 @@ function App() {
     index: number
   ) => {
     const { name, value } = e.target;
-    console.log(
-      "🚀 ~ file: App.tsx ~ line 108 ~ App ~ name",
-      name,
-      value,
-      index
-    );
     if (!allDatapoint) return;
     const shapes = [...allDatapoint];
     const foundShape = {
@@ -85,10 +83,6 @@ function App() {
       [name]: value,
     };
     shapes[index] = foundShape;
-    console.log(
-      "🚀 ~ file: App.tsx ~ line 123 ~ updateShape ~ circles",
-      shapes
-    );
     setAllDatapoint(shapes);
   };
 
@@ -202,7 +196,7 @@ function App() {
     <div className="App">
       <Header />
       <Sandbox>
-        {allDatapoint.length < 1 && (
+        {allDatapoint && allDatapoint.length < 1 && (
           <text x="450" y="300">
             Your drawing is empty
           </text>
