@@ -8,10 +8,14 @@ import { Button } from "reactstrap";
 import Line from "./components/Line";
 import CircleDetails from "./components/ShapesDetails/CircleDetails";
 import RectDetails from "./components/ShapesDetails/RectDetails";
+import LineDetails from "./components/ShapesDetails/LineDetails";
 
 interface IAllDataPoints {
   x: string;
-  y: any;
+  y: string;
+  x2?: string;
+  y2?: string;
+  stroke?: string;
   radius?: string;
   height?: string;
   width?: string;
@@ -19,20 +23,8 @@ interface IAllDataPoints {
   color: string;
 }
 
-interface ILineDataPoint {
-  x1: string;
-  y1: string;
-  x2: string;
-  y2: string;
-  stroke: string;
-}
-
 function App() {
   const [allDatapoint, setAllDatapoint] = useState<IAllDataPoints[] | null>([]);
-
-  const [lineDatapoints, setLineDatapoint] = useState<ILineDataPoint[] | null>(
-    []
-  );
 
   const createCircle = () => {
     const x = Math.floor(Math.random() * Math.floor(500)).toString();
@@ -51,9 +43,9 @@ function App() {
     const y1 = Math.floor(Math.random() * Math.floor(500)).toString();
     const y2 = Math.floor(Math.random() * Math.floor(500)).toString();
 
-    const all = [...lineDatapoints, { x1, x2, y1, y2, stroke: "black" }];
+    const all = [...allDatapoint, { x: x1, x2, y: y1, y2, stroke: "black" }];
 
-    setLineDatapoint(all);
+    setAllDatapoint(all);
   };
 
   const createRectangle = () => {
@@ -80,14 +72,19 @@ function App() {
     index: number
   ) => {
     const { name, value } = e.target;
-    console.log('🚀 ~ file: App.tsx ~ line 108 ~ App ~ name', name, value, index)
+    console.log(
+      "🚀 ~ file: App.tsx ~ line 108 ~ App ~ name",
+      name,
+      value,
+      index
+    );
     if (!allDatapoint) return;
     const shapes = [...allDatapoint];
-    const foundCircle = {
+    const foundShape = {
       ...shapes[index],
       [name]: value,
     };
-    shapes[index] = foundCircle;
+    shapes[index] = foundShape;
     console.log(
       "🚀 ~ file: App.tsx ~ line 123 ~ updateShape ~ circles",
       shapes
@@ -127,12 +124,28 @@ function App() {
             key={i}
           />
         );
+      } else {
+        const lineItem = {
+          index: i,
+          x1: item.x,
+          y1: item.y,
+          x2: item.x2 || '200',
+          y2: item.y2 || '50',
+          stroke: item.stroke || 'black'
+        }
+        return (
+          <LineDetails
+            item={lineItem}
+            updateShape={updateShape}
+            deleteShape={deleteShape}
+            key={i}
+          />
+        )
       }
-      return false;
     });
   };
 
-  const deleteShape = (shape: string, index: number) => {
+  const deleteShape = (index: number) => {
     if (!allDatapoint) return;
     const updatedDataPoints = [...allDatapoint].filter((item, i) => {
       return i !== index;
@@ -154,7 +167,7 @@ function App() {
             color={item.color}
           />
         );
-      } else {
+      } else if (item.name === "circle") {
         return (
           <Circle
             cx={item.x}
@@ -164,25 +177,36 @@ function App() {
             color={item.color}
           />
         );
+      } else {
+        return (
+          <Line
+            x1={item.x}
+            x2={item.x2 || '100'}
+            y1={item.y}
+            y2={item.y2 || '50'}
+            stroke={item.stroke || 'black'}
+            key={i}
+          />
+        );
       }
     });
   };
 
-  const renderLine = () => {
-    if (!lineDatapoints || lineDatapoints.length < 1) return;
-    return lineDatapoints.map((item, i) => {
-      return (
-        <Line
-          x1={item.x1}
-          y1={item.y1}
-          x2={item.x2}
-          y2={item.y2}
-          stroke="black"
-          key={i}
-        />
-      );
-    });
-  };
+  // const renderLine = () => {
+  //   if (!lineDatapoints || lineDatapoints.length < 1) return;
+  //   return lineDatapoints.map((item, i) => {
+  //     return (
+  //       <Line
+  //         x1={item.x1}
+  //         y1={item.y1}
+  //         x2={item.x2}
+  //         y2={item.y2}
+  //         stroke="black"
+  //         key={i}
+  //       />
+  //     );
+  //   });
+  // };
 
   return (
     <div className="App">
@@ -214,9 +238,7 @@ function App() {
 
       <div className="disclaimer">
         <h3> Note </h3>
-        <p>
-          You can drag a shape across the view to change position :)
-        </p>
+        <p>You can drag a shape across the view to change position :)</p>
       </div>
     </div>
   );
